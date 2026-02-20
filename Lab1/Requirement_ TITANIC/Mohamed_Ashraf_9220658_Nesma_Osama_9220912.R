@@ -1,3 +1,12 @@
+# students data
+# Student1: Mohamed Ashraf
+# Code1: 9220658
+
+# Student2: Nesma Osama
+# Code2: 9220912
+
+#--------------------------------------------------------------------
+
 # 1-Cleaning the working directory
 rm(list=ls())
 #--------------------------------------------------------------------
