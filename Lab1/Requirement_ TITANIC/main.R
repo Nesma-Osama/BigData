@@ -2,7 +2,7 @@
 rm(list=ls())
 #--------------------------------------------------------------------
 # 2- Read dataset
-data=read.csv("Requirement_ TITANIC/titanic.csv")
+data=read.csv("titanic.csv")
 #--------------------------------------------------------------------
 # 3- It’s time to explore the dataset as a whole.
 # a-Dimensions
