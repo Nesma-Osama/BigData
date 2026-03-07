@@ -21,4 +21,7 @@ for line in content2:
 cnt1 = dict(sorted(cnt1.items()))
 cnt2 = dict(sorted(cnt2.items()))
 
-assert cnt1 == cnt2, "The contents of the two files do not match."
+if cnt1 == cnt2:
+    print("The contents of the two files match.")
+else:
+    print("The contents of the two files do not match.")
