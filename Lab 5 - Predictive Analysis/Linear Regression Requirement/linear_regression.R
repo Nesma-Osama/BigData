@@ -1,4 +1,4 @@
-#setwd("~/LAB")
+setwd("/home/mohamed-ashraf/Desktop/projects/labs/BigData/Lab 5 - Predictive Analysis/Linear Regression Requirement")
 rm(list=ls())
 
 #=============================Part(1)=====================================
@@ -53,7 +53,7 @@ plot(model1, 1) # plot one diagnostic graphs
 x1 <- runif(100) 
 # introduce a slight nonlinearity
 #(A)
-y1 = 5 + 6*x1 + 0.1*x1*x1 + rnorm(100)
+y1 = 5 + 6*x1 + 2*x1*x1 + rnorm(100)
 plot(x1,y1)
 model <- lm(y1 ~ x1)
 
@@ -69,7 +69,7 @@ summary(model)
 
 x1 <- runif(100)
 #(B)
-ytrue = 5 + 6*x1 + 0.1*x1*x1 + rnorm(100)  # same equation of y1 but on xtest to get true y for xtest
+ytrue = 5 + 6*x1 + 2*x1*x1 + rnorm(100)  # same equation of y1 but on xtest to get true y for xtest
 
 ypred <- predict(model, data.frame(x1))
 
@@ -89,14 +89,27 @@ plot(model, 1) # plot the diagnostic graphs
 
 #=================================Part(3)==================================================
 #(Q7) Import the dataset LungCapData.tsv. What are the variables in this dataset?
-
+setwd("/home/mohamed-ashraf/Desktop/projects/labs/BigData/Lab 5 - Predictive Analysis/Linear Regression Requirement")
+getwd()
+lung <- read.delim("LungCapData.tsv", header = TRUE, sep = "\t")
+head(lung)
+str(lung)
+names(lung) 
 #(Q8) Draw a scatter plot of Age (x-axis) vs. LungCap (y-axis). Label x-axis "Age" and y-axis "LungCap"
-
+plot(lung$Age, lung$LungCap, xlab = "Age", ylab = "LungCap", main = "Scatter plot of Age vs Lung Capacity", pch = 19, col = "blue")
 #(Q9) Draw a pair-wise scatter plot between Lung Capacity, Age and Height. 
 #Check the slides for how to plot a pair-wise scatterplot
+# Pairwise scatter plot between LungCap, Age, and Height
+pairs(lung[, c("LungCap", "Age", "Height")], main = "Pairwise Scatter Plot of LungCap, Age, and Height", pch = 19, col = "darkgreen")
 
 #(Q10) Calculate correlation between Age and LungCap, and between Height and LungCap.
 #Hint: You can use the function cor
+cor_age_lung <- cor(lung$Age, lung$LungCap)
+cat("Correlation between Age and LungCap:", cor_age_lung, "\n")
+
+# Correlation between Height and LungCap
+cor_height_lung <- cor(lung$Height, lung$LungCap)
+cat("Correlation between Height and LungCap:", cor_height_lung, "\n")
 
 #(Q11) Which of the two input variables (Age, Height) are more correlated to the 
 #dependent variable (LungCap)?
@@ -105,24 +118,39 @@ plot(model, 1) # plot the diagnostic graphs
 
 #(Q13) Fit a liner regression model where the dependent variable is LungCap 
 #and use all other variables as the independent variables
+model_all <- lm(LungCap ~ Age + Height + Smoke + Gender + Caesarean, data = lung)
 
 #(Q14) Show a summary of this model
+summary(model_all)
 
 #(Q15) What is the R-squared value here ? What does R-squared indicate?
+summary(model_all)$r.squared
 
 #(Q16) Show the coefficients of the linear model. Do they make sense?
 #If not, which variables don't make sense? What should you do?
+summary(model_all)$coefficients
 
 #(Q17) Redraw a scatter plot between Age and LungCap. Display/Overlay the linear model (a line) over it.
 #Hint: Use the function abline(model, col="red").
 #Note (1) : A warning will be displayed that this function will display only the first two 
 #           coefficients in the model. It's OK.
 #Note (2) : If you are working correctly, the line will not be displayed on the plot. Why?
+plot(lung$Age, lung$LungCap, xlab = "Age", ylab = "LungCap", main = "Age vs Lung Capacity", pch = 19, col = "blue")
+abline(model_all, col = "red")
 
 #(Q18)Repeat Q13 but with these variables Age, Smoke and Cesarean as the only independent variables.
+model_reduced <- lm(LungCap ~ Age + Smoke + Caesarean, data = lung)
+summary(model_reduced)
 
-#(Q19)Repeat Q16, Q17 for the new model. What happened?
+  #(Q19)Repeat Q16, Q17 for the new model. What happened?
+summary(model_reduced)$coefficients
+plot(lung$Age, lung$LungCap, xlab = "Age", ylab = "LungCap", pch = 19, col = "blue")
+abline(model_reduced, col = "red")
 
 #(Q20)Predict results for this regression line on the training data.
+ypred_reduced <- predict(model_reduced, newdata = lung)
+head(ypred_reduced)
 
 #(Q21)Calculate the mean squared error (MSE)of the training data.
+mse <- mean((lung$LungCap - ypred_reduced)^2)
+mse

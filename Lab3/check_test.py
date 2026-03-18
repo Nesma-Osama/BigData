@@ -1,4 +1,4 @@
-path1 = '/home/mohamed-ashraf/Desktop/projects/labs/BigData/Lab2/VodafoneLab/Input/output/part-00000.txt'
+path1 = '/home/mohamed-ashraf/Desktop/projects/labs/BigData/Lab3/output/output.txt'
 path2 = '/home/mohamed-ashraf/Desktop/projects/labs/BigData/Lab2/VodafoneLab/output.txt'
 
 with open(path1, 'r') as f1, open(path2, 'r') as f2:
